@@ -1,6 +1,10 @@
 package mx.edu.potros.popcornfactory_215109
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,5 +20,51 @@ class MovieDetail : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        var titulo: String = getIntent().getStringExtra("titulo") as String
+        var image: Int = getIntent().getIntExtra("imagen", 0) as Int
+        var sinopsis: String = getIntent().getStringExtra("sinopsis") as String
+        var ns: Int = getIntent().getIntExtra("numberSeats", 0)
+        var id: Int = getIntent().getIntExtra("pos",-1)
+        var buyTickets: Button = findViewById(R.id.buy_tickets)
+
+        var imagen : ImageView = findViewById(R.id.image_movie_only)
+        var title : TextView = findViewById(R.id.movie_tittle_only)
+        var sinops: TextView = findViewById(R.id.movie_description_only)
+        var seats: TextView = findViewById(R.id.seatLeft)
+
+        imagen.setImageResource(image.toInt())
+        title.setText(titulo)
+        sinops.setText(sinopsis)
+
+
+        if(CatalogActivity.DataProvider.peliculas[id].seats.size != 0){
+            ns = 20 - CatalogActivity.DataProvider.peliculas[id].seats.size
+        }
+
+        seats.setText(ns.toString() + " seat available")
+
+
+
+        if(ns == 0){
+            buyTickets.isEnabled = false
+        }
+        else{
+            buyTickets.isEnabled = true
+            buyTickets.setOnClickListener{
+                val intent: Intent = Intent(this,SeatSelection::class.java)
+
+                intent.putExtra("movie", id)
+                intent.putExtra("name", titulo)
+
+                this.startActivity(intent)
+
+            }
+        }
+
+
     }
+
+
+
 }

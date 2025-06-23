@@ -10,8 +10,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PopcornFactory_215109"
+        android:theme="@style/Theme.PopcornFactory"
         tools:targetApi="31">
+        <activity
+            android:name=".SeatSelection"
+            android:exported="false" />
         <activity
             android:name=".MovieDetail"
             android:exported="false" />
